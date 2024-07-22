@@ -16,6 +16,15 @@ header {
     position: relative;
 }
 
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
 header h1 {
     margin: 0;
     font-size: 2.5em;
@@ -26,10 +35,10 @@ header p {
 }
 
 .profile-photo {
-    width: 150px;
-    height: 150px;
+    width: 150px;  /* Adjust the width as needed */
+    height: 150px;  /* Adjust the height as needed */
     border-radius: 50%;
-    margin-top: 20px;
+    margin-left: 20px;
 }
 
 section {
@@ -38,6 +47,8 @@ section {
     background: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 1200px;
+    margin: 20px auto;
 }
 
 section h2 {
