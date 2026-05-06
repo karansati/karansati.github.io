@@ -191,45 +191,55 @@
     </div>
 </section>
 
-<section id="playground" class="scroll-mt-24 py-20 bg-white dark:bg-gray-900">
+<section id="playground" class="scroll-mt-24 py-20 bg-white dark:bg-gray-900 overflow-hidden">
     <div class="max-w-4xl mx-auto px-6">
         <div class="text-center mb-12">
-            <h3 class="text-3xl font-bold mb-2 underline decoration-accent decoration-4 underline-offset-8">The Circuit Playground</h3>
-            <p class="text-gray-600 dark:text-gray-400 mt-4">Can you complete the circuit? Toggle the inputs below to power the bulb.</p>
+            <h3 class="text-3xl font-bold mb-2 underline decoration-accent decoration-4 underline-offset-8">Advanced Circuit Playground</h3>
+            <p class="text-gray-600 dark:text-gray-400 mt-4">Can you complete the circuit? <br class="md:hidden"><code class="bg-gray-100 dark:bg-gray-800 px-3 py-1 rounded text-accent text-sm md:ml-2 font-mono">Logic: Output = (A AND B) OR C</code></p>
         </div>
 
-        <div class="bg-gray-50 dark:bg-gray-800/50 border-2 border-gray-200 dark:border-gray-700 rounded-3xl p-8 max-w-2xl mx-auto relative overflow-hidden">
-            <div class="flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
-                <div class="flex flex-col gap-10">
-                    <div class="flex items-center gap-4">
-                        <span class="text-xs font-bold tracking-widest text-gray-500">INPUT A</span>
-                        <button onclick="toggleGate('inputA')" id="btn-inputA" class="w-14 h-8 bg-gray-300 dark:bg-gray-600 rounded-full relative transition-colors focus:outline-none">
-                            <div id="circle-inputA" class="w-6 h-6 bg-white rounded-full absolute top-1 left-1 transition-transform"></div>
-                        </button>
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <span class="text-xs font-bold tracking-widest text-gray-500">INPUT B</span>
-                        <button onclick="toggleGate('inputB')" id="btn-inputB" class="w-14 h-8 bg-gray-300 dark:bg-gray-600 rounded-full relative transition-colors focus:outline-none">
-                            <div id="circle-inputB" class="w-6 h-6 bg-white rounded-full absolute top-1 left-1 transition-transform"></div>
-                        </button>
-                    </div>
+        <div class="w-full overflow-x-auto pb-8">
+            <div class="relative min-w-[700px] h-[340px] mx-auto bg-gray-50 dark:bg-gray-800/50 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm">
+                <svg class="absolute inset-0 w-full h-full pointer-events-none">
+                    <path id="wire-a" d="M 110 70 L 200 70 L 200 95 L 250 95" stroke="currentColor" class="text-gray-300 dark:text-gray-600 transition-colors duration-300" stroke-width="4" fill="none" stroke-linejoin="round"/>
+                    <path id="wire-b" d="M 110 170 L 200 170 L 200 145 L 250 145" stroke="currentColor" class="text-gray-300 dark:text-gray-600 transition-colors duration-300" stroke-width="4" fill="none" stroke-linejoin="round"/>
+                    <path id="wire-c" d="M 110 270 L 400 270 L 400 220 L 450 220" stroke="currentColor" class="text-gray-300 dark:text-gray-600 transition-colors duration-300" stroke-width="4" fill="none" stroke-linejoin="round"/>
+                    <path id="wire-and" d="M 350 120 L 400 120 L 400 170 L 450 170" stroke="currentColor" class="text-gray-300 dark:text-gray-600 transition-colors duration-300" stroke-width="4" fill="none" stroke-linejoin="round"/>
+                    <path id="wire-out" d="M 550 195 L 600 195" stroke="currentColor" class="text-gray-300 dark:text-gray-600 transition-colors duration-300" stroke-width="4" fill="none" stroke-linecap="round"/>
+                </svg>
+
+                <div class="absolute left-[30px] top-[54px] flex items-center gap-3">
+                    <span class="font-bold text-[10px] tracking-widest text-gray-500">INPUT A</span>
+                    <button id="btn-A" onclick="toggleNode('A')" class="w-12 h-7 bg-gray-300 dark:bg-gray-600 rounded-full relative transition-colors focus:outline-none">
+                        <div id="circle-A" class="w-5 h-5 bg-white rounded-full absolute top-1 left-1 transition-transform"></div>
+                    </button>
+                </div>
+                <div class="absolute left-[30px] top-[154px] flex items-center gap-3">
+                    <span class="font-bold text-[10px] tracking-widest text-gray-500">INPUT B</span>
+                    <button id="btn-B" onclick="toggleNode('B')" class="w-12 h-7 bg-gray-300 dark:bg-gray-600 rounded-full relative transition-colors focus:outline-none">
+                        <div id="circle-B" class="w-5 h-5 bg-white rounded-full absolute top-1 left-1 transition-transform"></div>
+                    </button>
+                </div>
+                <div class="absolute left-[30px] top-[254px] flex items-center gap-3">
+                    <span class="font-bold text-[10px] tracking-widest text-gray-500">INPUT C</span>
+                    <button id="btn-C" onclick="toggleNode('C')" class="w-12 h-7 bg-gray-300 dark:bg-gray-600 rounded-full relative transition-colors focus:outline-none">
+                        <div id="circle-C" class="w-5 h-5 bg-white rounded-full absolute top-1 left-1 transition-transform"></div>
+                    </button>
                 </div>
 
-                <div class="w-32 h-24 border-4 border-gray-400 dark:border-gray-500 rounded-r-full flex items-center justify-center relative bg-white dark:bg-gray-900">
-                    <span class="font-bold text-lg text-gray-400">AND</span>
-                    <div class="absolute -left-10 top-1/4 w-10 h-1 bg-gray-400" id="wireA"></div>
-                    <div class="absolute -left-10 bottom-1/4 w-10 h-1 bg-gray-400" id="wireB"></div>
-                    <div class="absolute -right-10 top-1/2 w-10 h-1 bg-gray-400" id="wireOut"></div>
+                <div id="gate-and" class="absolute left-[250px] top-[70px] w-[100px] h-[100px] border-4 border-gray-300 dark:border-gray-600 rounded-r-full flex items-center justify-center bg-white dark:bg-gray-900 transition-colors z-10 shadow-sm">
+                    <span class="font-bold text-gray-400 tracking-wide">AND</span>
+                </div>
+                <div id="gate-or" class="absolute left-[450px] top-[145px] w-[100px] h-[100px] border-4 border-gray-300 dark:border-gray-600 rounded-r-[50%] rounded-l-3xl flex items-center justify-center bg-white dark:bg-gray-900 transition-colors z-10 shadow-sm">
+                    <span class="font-bold text-gray-400 tracking-wide ml-2">OR</span>
                 </div>
 
-                <div class="text-center">
-                    <div id="lightbulb" class="w-24 h-24 rounded-full bg-gray-200 dark:bg-gray-700 border-4 border-gray-300 dark:border-gray-600 flex items-center justify-center transition-all duration-500">
-                        <svg class="w-12 h-12 text-gray-400 transition-colors" id="bulbIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
-                        </svg>
-                    </div>
-                    <p id="status-text" class="mt-4 font-mono text-xs font-bold text-gray-400 uppercase tracking-widest">Logic: LOW</p>
+                <div id="lightbulb" class="absolute left-[600px] top-[155px] w-20 h-20 rounded-full bg-gray-200 dark:bg-gray-700 border-4 border-gray-300 dark:border-gray-600 flex items-center justify-center transition-all duration-500 z-10">
+                    <svg class="w-10 h-10 text-gray-400 transition-colors" id="bulbIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                    </svg>
                 </div>
+                <p id="status-text" class="absolute left-[580px] top-[245px] w-[120px] text-center font-mono text-xs font-bold text-gray-400 uppercase tracking-widest">LOW (0)</p>
             </div>
         </div>
     </div>
@@ -269,181 +279,6 @@
     </div>
 </footer>
 
-<script>
-    // --- 1. Theme Toggle Logic ---
-    const themeToggle = document.getElementById('themeToggle');
-    const sunIcon = document.getElementById('sunIcon');
-    const moonIcon = document.getElementById('moonIcon');
-    const html = document.documentElement;
-
-    function updateIcons() {
-        if (html.classList.contains('dark')) {
-            sunIcon.classList.remove('hidden');
-            moonIcon.classList.add('hidden');
-        } else {
-            sunIcon.classList.add('hidden');
-            moonIcon.classList.remove('hidden');
-        }
-    }
-
-    themeToggle.addEventListener('click', () => {
-        html.classList.toggle('dark');
-        localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
-        updateIcons();
-    });
-
-    if (localStorage.getItem('theme') === 'light') {
-        html.classList.remove('dark');
-        updateIcons();
-    } else {
-        updateIcons();
-    }
-
-    // --- 2. Logic Gate Playground Logic ---
-    let gameState = { inputA: false, inputB: false };
-
-    function toggleGate(id) {
-        gameState[id] = !gameState[id];
-        const btn = document.getElementById(`btn-${id}`);
-        const circle = document.getElementById(`circle-${id}`);
-        const wire = document.getElementById(`wire${id.replace('input', '')}`);
-        
-        if (gameState[id]) {
-            btn.classList.replace('bg-gray-300', 'bg-accent');
-            btn.classList.replace('dark:bg-gray-600', 'bg-accent');
-            circle.style.transform = 'translateX(24px)';
-            wire.classList.replace('bg-gray-400', 'bg-accent');
-        } else {
-            btn.classList.add('bg-gray-300', 'dark:bg-gray-600');
-            btn.classList.remove('bg-accent');
-            circle.style.transform = 'translateX(0px)';
-            wire.classList.replace('bg-accent', 'bg-gray-400');
-        }
-        checkLogic();
-    }
-
-    function checkLogic() {
-        const isPowered = gameState.inputA && gameState.inputB;
-        const bulb = document.getElementById('lightbulb');
-        const bulbIcon = document.getElementById('bulbIcon');
-        const statusText = document.getElementById('status-text');
-        const wireOut = document.getElementById('wireOut');
-
-        if (isPowered) {
-            bulb.classList.add('bg-yellow-400', 'bulb-glow', 'border-yellow-200');
-            bulbIcon.classList.add('text-white');
-            statusText.innerText = "Logic: HIGH (5V)";
-            statusText.classList.replace('text-gray-400', 'text-yellow-500');
-            wireOut.classList.replace('bg-gray-400', 'bg-yellow-400');
-        } else {
-            bulb.classList.remove('bg-yellow-400', 'bulb-glow', 'border-yellow-200');
-            bulbIcon.classList.remove('text-white');
-            statusText.innerText = "Logic: LOW (0V)";
-            statusText.classList.replace('text-yellow-500', 'text-gray-400');
-            wireOut.classList.replace('bg-yellow-400', 'bg-gray-400');
-        }
-    }
-
-    // --- 3. Animated Honeycomb Border Logic ---
-    const gridConfig = {
-        cols: 10,
-        rows: 10,
-        hexSize: 10,
-        baseColor: { r: 100, g: 116, b: 139, a: 0.2 }, // Slate-ish base
-        activeColor: { r: 79, g: 70, b: 229, a: 0.8 }, // Your Accent color (Indigo)
-        pulseRate: 0.05,
-        maxBrightnessShift: 40,
-        activeProbability: 0.08,
-        cellAnimationInterval: 500,
-    };
-
-    const hexGrid = document.getElementById('hexGrid');
-
-    function getRGBAString(color, alphaOverride) {
-        return `rgba(${color.r}, ${color.g}, ${color.b}, ${alphaOverride !== undefined ? alphaOverride : color.a})`;
-    }
-
-    function shiftBrightness(color, shiftPercentage) {
-        const shiftAmount = (gridConfig.maxBrightnessShift / 100) * 255 * (shiftPercentage / 100);
-        const r = Math.max(0, Math.min(255, color.r + shiftAmount));
-        const g = Math.max(0, Math.min(255, color.g + shiftAmount));
-        const b = Math.max(0, Math.min(255, color.b + shiftAmount));
-        return { r, g, b, a: color.a };
-    }
-
-    const hexHeight = Math.sqrt(3);
-    const colWidth = 1.5 * gridConfig.hexSize;
-    const rowHeight = hexHeight * gridConfig.hexSize;
-
-    function createHexCell(x, y, scale) {
-        const points = [];
-        const angles = [30, 90, 150, 210, 270, 330];
-        for (let angle of angles) {
-            const angleRad = (angle * Math.PI) / 180;
-            points.push(`${scale * Math.cos(angleRad)},${scale * Math.sin(angleRad)}`);
-        }
-        const polygon = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
-        polygon.setAttribute("points", points.join(' '));
-        polygon.setAttribute("class", "hex-cell");
-        polygon.setAttribute("transform", `translate(${x}, ${y})`);
-        polygon.style.stroke = getRGBAString(gridConfig.baseColor);
-        polygon.style.fill = getRGBAString(gridConfig.baseColor);
-        return polygon;
-    }
-
-    function drawGrid() {
-        hexGrid.innerHTML = '';
-        
-        // Match the shape of CSS clip-path exactly
-        const path = `M10 0 L90 0 L100 10 L100 90 L90 100 L10 100 L0 90 L0 10 Z`;
-        const borderClipPath = document.createElementNS("http://www.w3.org/2000/svg", "clipPath");
-        borderClipPath.setAttribute("id", "borderShape");
-        const borderPathElement = document.createElementNS("http://www.w3.org/2000/svg", "path");
-        borderPathElement.setAttribute("d", path);
-        borderClipPath.appendChild(borderPathElement);
-        hexGrid.appendChild(borderClipPath);
-        hexGrid.setAttribute("clip-path", "url(#borderShape)");
-
-        for (let row = 0; row < gridConfig.rows; row++) {
-            for (let col = 0; col < gridConfig.cols; col++) {
-                const offsetX = (row % 2 === 0) ? gridConfig.hexSize * 0.75 : 0;
-                const x = (col * colWidth) + offsetX;
-                const y = (row * rowHeight) / 2;
-                const hexScale = (gridConfig.hexSize / 2) * 1.1; 
-                const hexCell = createHexCell(x, y, hexScale);
-                hexGrid.appendChild(hexCell);
-            }
-        }
-    }
-
-    let pulseCounter = 0;
-    const allCells = [];
-
-    function animateGrid() {
-        pulseCounter += gridConfig.pulseRate;
-        if (allCells.length === 0) {
-            document.querySelectorAll('.hex-cell').forEach(cell => allCells.push(cell));
-        }
-
-        allCells.forEach((cell, index) => {
-            const brightnessShift = 100 * Math.sin(pulseCounter + index * 0.1) * (gridConfig.pulseRate / 2);
-            const dimmedColor = shiftBrightness(gridConfig.baseColor, brightnessShift);
-            cell.style.stroke = getRGBAString(dimmedColor, 0.3);
-            cell.style.fill = getRGBAString(dimmedColor);
-
-            if (Math.random() < gridConfig.pulseRate * gridConfig.activeProbability) {
-                if (Math.random() < gridConfig.activeProbability) {
-                    // Activate cell with the theme's accent color
-                    cell.style.fill = getRGBAString(gridConfig.activeColor);
-                    cell.style.stroke = getRGBAString(gridConfig.activeColor, 0.9);
-                }
-            }
-        });
-    }
-
-    // Initialize Honeycomb
-    drawGrid();
-    setInterval(animateGrid, gridConfig.cellAnimationInterval);
-</script>
+<script src="script.js"></script>
 </body>
 </html>
