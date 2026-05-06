@@ -1,203 +1,212 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth dark">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Karan Sati | Electrical Engineer Portfolio</title>
-    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'ui-sans-serif', 'system-ui'],
-                        heading: ['Poppins', 'Inter', 'ui-sans-serif'],
-                        script: ['"Comic Neue"', 'cursive'],
-                    },
-                    colors: { accent: { DEFAULT: '#4F46E5', hover: '#4338CA' } },
-                    backgroundImage: { paper: "url('https://www.toptal.com/designers/subtlepatterns/patterns/paper-1.png')" }
-                }
-            }
-        };
-    </script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@600;700&family=Comic+Neue:ital,wght@1,700&display=swap" rel="stylesheet">
-    <style>
-        .bulb-glow { box-shadow: 0 0 50px rgba(250, 204, 21, 0.6); }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dynamic Honeycomb Portrait Frame</title>
+<style>
+/* --- Core Styling & Background --- */
+body {
+margin: 0;
+padding: 0;
+display: flex;
+justify-content: center;
+align-items: center;
+min-height: 100vh;
+background: linear-gradient(135deg, #0d1117, #1c2128); /* Match dark professional tone */
+overflow: hidden; /* For dynamic border effects */
+}
+
+/* --- Outer Dynamic Container & Boundary --- */
+.portrait-stage {
+position: relative;
+width: 60vmin; /* Responsive width */
+height: 60vmin;
+padding: 3vmin; /* Spacing between border and stage */
+box-sizing: border-box;
+}
+
+/* Base Dynamic Boundary Style (Irregular Hexagonal Base) */
+.stage-inner {
+position: relative;
+width: 100%;
+height: 100%;
+overflow: hidden; /* Contain the image within the base shape */
+clip-path: polygon( /* Custom irregular hexagonal base shape */
+10% 0%, 90% 0%, 100% 10%, 100% 90%, 90% 100%,
+10% 100%, 0% 90%, 0% 10%
+);
+background-color: transparent; /* No fill on inner stage, let border define shape */
+}
+
+/* --- Reframed Portrait Image (Provided by User) --- */
+.portrait-image {
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+width: 100%; /* Cover the inner stage area, preserving aspect ratio */
+height: auto;
+min-height: 100%; /* Ensure full height cover in case image is portrait */
+opacity: 1;
+transition: opacity 1s ease-in-out; /* Smooth transition for potentially wider image appearance */
+display: block; /* Avoid inline spacing issues */
+z-index: -1; /* Place image behind any potentially overlapping animated elements */
+}
+
+/* --- Animated Honeycomb Border Layer --- */
+.honeycomb-border {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+z-index: 10; /* Place border element *over* image */
+pointer-events: none; /* Let clicks pass through border */
+}
+
+/* --- Dynamic Honeycomb Grid (SVG for control/animation) --- */
+.honeycomb-grid {
+width: 100%;
+height: 100%;
+fill: none; /* No base fill, let cells define appearance */
+}
+
+/* Styles for animated honeycomb cells (JavaScript dynamically generates and updates these) */
+.hex-cell {
+stroke-width: 1; /* Thin border for clean look */
+fill-opacity: 0.1; /* Translucent cells */
+transition: fill 0.3s ease, stroke 0.3s ease; /* Smooth state transitions */
+}
+</style>
 </head>
-<body class="bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100 antialiased transition-colors duration-300 font-sans">
+<body>
 
-<!-- Navigation -->
-<header class="sticky top-0 z-50 backdrop-blur-md bg-white/70 dark:bg-gray-900/70 border-b border-gray-200 dark:border-gray-800">
-    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-        <h1 class="text-xl font-bold tracking-tight">Karan<span class="text-accent">Sati.</span></h1>
-        <nav class="hidden md:flex gap-8 text-sm font-medium items-center">
-            <a href="#about" class="hover:text-accent transition-colors">About</a>
-            <a href="#skills" class="hover:text-accent transition-colors">Skills</a>
-            <a href="#projects" class="hover:text-accent transition-colors">Projects</a>
-            <a href="#playground" class="hover:text-accent transition-colors">Playground</a>
-            <button id="themeToggle" class="p-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:ring-2 ring-accent transition-all">
-                <svg id="sunIcon" class="hidden w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"></path></svg>
-                <svg id="moonIcon" class="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
-            </button>
-        </nav>
-    </div>
-</header>
+<div class="portrait-stage">
+<div class="stage-inner">
+<img src="karan.jpg" alt="Reframed Professional Portrait" class="portrait-image" id="portraitImg">
+</div>
 
-<!-- Hero Section -->
-<section id="hero" class="relative min-h-[80vh] flex items-center bg-paper dark:bg-none overflow-hidden">
-    <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 items-center px-6 py-20 relative z-10">
-        <div>
-            <p class="font-script text-accent text-2xl mb-4 rotate-[-2deg]">Hey there!</p>
-            <h2 class="font-heading text-5xl lg:text-7xl font-bold leading-tight mb-6">I’m Karan.<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-accent to-purple-500">EE Engineer</span> & Problem‑Solver.</h2>
-            <p class="text-lg text-gray-600 dark:text-gray-400 mb-8 max-w-lg">Electrical Engineer specializing in Energy Systems. I build smart hardware and model neural networks.</p>
-            
-            <form class="flex flex-col sm:flex-row gap-3 max-w-md">
-                <input type="email" placeholder="Get my weekly engineering hacks" class="flex-1 px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white/50 dark:bg-gray-800/50 focus:ring-2 ring-accent outline-none text-sm">
-                <button type="submit" class="bg-accent text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg hover:shadow-accent/30 transition-all">Subscribe</button>
-            </form>
-        </div>
-        <div class="relative justify-self-center lg:justify-self-end">
-            <div class="absolute -inset-4 bg-accent/20 rounded-[3rem] blur-2xl"></div>
-            <img src="images/karan.jpg" alt="Karan Sati" class="relative w-72 h-72 lg:w-96 lg:h-96 object-cover rounded-[2.5rem] shadow-2xl border-8 border-white dark:border-gray-800">
-        </div>
-    </div>
-</section>
-
-<!-- Logic Gate Playground -->
-<section id="playground" class="py-24 bg-gray-50 dark:bg-gray-800/30">
-    <div class="max-w-4xl mx-auto px-6">
-        <div class="text-center mb-12">
-            <h3 class="text-3xl font-bold mb-2">The Circuit Playground</h3>
-            <p class="text-gray-600 dark:text-gray-400">Can you power the bulb? Toggle the logic gates below.</p>
-        </div>
-
-        <div class="bg-white dark:bg-gray-900 border-2 border-accent/20 rounded-3xl p-8 shadow-inner max-w-2xl mx-auto relative overflow-hidden">
-            <div class="flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
-                <div class="flex flex-col gap-10">
-                    <div class="flex items-center gap-4">
-                        <span class="text-xs font-bold tracking-widest text-gray-500">INPUT A</span>
-                        <button onclick="toggleGate('inputA')" id="btn-inputA" class="w-14 h-8 bg-gray-300 dark:bg-gray-700 rounded-full relative transition-colors">
-                            <div id="circle-inputA" class="w-6 h-6 bg-white rounded-full absolute top-1 left-1 transition-transform"></div>
-                        </button>
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <span class="text-xs font-bold tracking-widest text-gray-500">INPUT B</span>
-                        <button onclick="toggleGate('inputB')" id="btn-inputB" class="w-14 h-8 bg-gray-300 dark:bg-gray-700 rounded-full relative transition-colors">
-                            <div id="circle-inputB" class="w-6 h-6 bg-white rounded-full absolute top-1 left-1 transition-transform"></div>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="w-32 h-24 border-4 border-gray-400 dark:border-gray-600 rounded-r-full flex items-center justify-center relative">
-                    <span class="font-bold text-lg text-gray-400">AND</span>
-                    <div class="absolute -left-10 top-1/4 w-10 h-1 bg-gray-400" id="wireA"></div>
-                    <div class="absolute -left-10 bottom-1/4 w-10 h-1 bg-gray-400" id="wireB"></div>
-                    <div class="absolute -right-10 top-1/2 w-10 h-1 bg-gray-400" id="wireOut"></div>
-                </div>
-
-                <div class="text-center">
-                    <div id="lightbulb" class="w-24 h-24 rounded-full bg-gray-200 dark:bg-gray-800 border-4 border-gray-300 dark:border-gray-700 flex items-center justify-center transition-all duration-500">
-                        <svg class="w-12 h-12 text-gray-400 transition-colors" id="bulbIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
-                        </svg>
-                    </div>
-                    <p id="status-text" class="mt-4 font-mono text-xs font-bold text-gray-400 uppercase tracking-widest">Logic: LOW</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Footer -->
-<footer class="bg-gray-900 text-white py-12">
-    <div class="max-w-4xl mx-auto px-6 text-center">
-        <h3 class="text-2xl font-bold mb-4">Let's Connect</h3>
-        <p class="text-gray-400 mb-8 italic">"Tea-powered engineering for a sustainable future."</p>
-        <a href="mailto:karansati.work@gmail.com" class="inline-block bg-white text-gray-900 px-8 py-3 rounded-full font-bold hover:scale-105 transition-transform">Email Me</a>
-        <div class="mt-12 pt-8 border-t border-gray-800 text-sm text-gray-500">
-            &copy; 2026 Karan Sati.
-        </div>
-    </div>
-</footer>
+<div class="honeycomb-border" id="borderStage">
+<svg class="honeycomb-grid" viewBox="0 0 100 100" id="hexGrid">
+</svg>
+</div>
+</div>
 
 <script>
-    // Theme Toggle Logic
-    const themeToggle = document.getElementById('themeToggle');
-    const sunIcon = document.getElementById('sunIcon');
-    const moonIcon = document.getElementById('moonIcon');
-    const html = document.documentElement;
+// --- Configuration for Dynamic Honeycomb Grid ---
+const gridConfig = {
+cols: 10, // Number of columns
+rows: 10, // Number of rows
+hexSize: 10, // Approximate diameter of each hex cell relative to viewBox size
+baseColor: { r: 100, g: 150, b: 200, a: 0.3 }, // Soft base translucent color (soft blue)
+activeColor: { r: 250, g: 200, b: 100, a: 0.8 }, // Vibrant active color (electric gold)
+pulseRate: 0.05, // Rate of pulsing color changes
+maxBrightnessShift: 50, // Max brightness fluctuation
+activeProbability: 0.1, // Probability a cell is active in a given pulse cycle
+cellAnimationInterval: 500, // Interval between cell animation updates (ms)
+};
 
-    function updateIcons() {
-        if (html.classList.contains('dark')) {
-            sunIcon.classList.remove('hidden');
-            moonIcon.classList.add('hidden');
-        } else {
-            sunIcon.classList.add('hidden');
-            moonIcon.classList.remove('hidden');
-        }
-    }
+const hexGrid = document.getElementById('hexGrid');
+const borderStage = document.getElementById('borderStage');
+const portraitImg = document.getElementById('portraitImg');
 
-    themeToggle.addEventListener('click', () => {
-        html.classList.toggle('dark');
-        localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
-        updateIcons();
-    });
+// --- Helper Functions for Color Manipulation (Simplified, no named colors) ---
+function getRGBAString(color, alphaOverride) {
+return `rgba(${color.r}, ${color.g}, ${color.b}, ${alphaOverride !== undefined ? alphaOverride : color.a})`;
+}
 
-    if (localStorage.getItem('theme') === 'light') {
-        html.classList.remove('dark');
-        updateIcons();
-    } else {
-        updateIcons();
-    }
+function shiftBrightness(color, shiftPercentage) {
+const shiftAmount = (gridConfig.maxBrightnessShift / 100) * 255 * (shiftPercentage / 100);
+const r = Math.max(0, Math.min(255, color.r + shiftAmount));
+const g = Math.max(0, Math.min(255, color.g + shiftAmount));
+const b = Math.max(0, Math.min(255, color.b + shiftAmount));
+return { r, g, b, a: color.a };
+}
 
-    // Logic Gate Playground Logic
-    let gameState = { inputA: false, inputB: false };
+// --- Hexagonal Drawing Constants ---
+const hexHeight = Math.sqrt(3); // Height factor relative to column width
+const colWidth = 1.5 * gridConfig.hexSize;
+const rowHeight = hexHeight * gridConfig.hexSize;
 
-    function toggleGate(id) {
-        gameState[id] = !gameState[id];
-        const btn = document.getElementById(`btn-${id}`);
-        const circle = document.getElementById(`circle-${id}`);
-        const wire = document.getElementById(`wire${id.replace('input', '')}`);
-        
-        if (gameState[id]) {
-            btn.classList.replace('bg-gray-300', 'bg-accent');
-            btn.classList.replace('dark:bg-gray-700', 'bg-accent');
-            circle.style.transform = 'translateX(24px)';
-            wire.classList.replace('bg-gray-400', 'bg-accent');
-        } else {
-            btn.classList.add('bg-gray-300', 'dark:bg-gray-700');
-            btn.classList.remove('bg-accent');
-            circle.style.transform = 'translateX(0px)';
-            wire.classList.replace('bg-accent', 'bg-gray-400');
-        }
-        checkLogic();
-    }
+// --- Generate & Animate Honeycomb Grid (SVG based) ---
+function createHexCell(x, y, scale) {
+// Point generation for a hexagon relative to its center (approximate, adapted for grid)
+const points = [];
+const angles = [30, 90, 150, 210, 270, 330]; // Relative angles for hexagonal vertices
+for (let angle of angles) {
+const angleRad = (angle * Math.PI) / 180;
+points.push(`${scale * Math.cos(angleRad)},${scale * Math.sin(angleRad)}`);
+}
 
-    function checkLogic() {
-        const isPowered = gameState.inputA && gameState.inputB;
-        const bulb = document.getElementById('lightbulb');
-        const bulbIcon = document.getElementById('bulbIcon');
-        const statusText = document.getElementById('status-text');
-        const wireOut = document.getElementById('wireOut');
+const polygon = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+polygon.setAttribute("points", points.join(' '));
+polygon.setAttribute("class", "hex-cell");
+polygon.setAttribute("transform", `translate(${x}, ${y})`);
+polygon.style.stroke = getRGBAString(gridConfig.baseColor);
+polygon.style.fill = getRGBAString(gridConfig.baseColor);
+return polygon;
+}
 
-        if (isPowered) {
-            bulb.classList.add('bg-yellow-400', 'bulb-glow', 'border-yellow-200');
-            bulbIcon.classList.add('text-white');
-            statusText.innerText = "Logic: HIGH (5V)";
-            statusText.classList.replace('text-gray-400', 'text-yellow-500');
-            wireOut.classList.replace('bg-gray-400', 'bg-yellow-400');
-        } else {
-            bulb.classList.remove('bg-yellow-400', 'bulb-glow', 'border-yellow-200');
-            bulbIcon.classList.remove('text-white');
-            statusText.innerText = "Logic: LOW (0V)";
-            statusText.classList.replace('text-yellow-500', 'text-gray-400');
-            wireOut.classList.replace('bg-yellow-400', 'bg-gray-400');
-        }
-    }
+function drawGrid() {
+// Clear any existing grid content
+hexGrid.innerHTML = '';
+// Dynamic irregular hexagonal boundary *roughly* matches outer container boundary conceptually
+const path = `M10 0 L90 0 L100 10 L100 90 L90 100 L10 100 L0 90 L0 10 Z`;
+const borderClipPath = document.createElementNS("http://www.w3.org/2000/svg", "clipPath");
+borderClipPath.setAttribute("id", "borderShape");
+const borderPathElement = document.createElementNS("http://www.w3.org/2000/svg", "path");
+borderPathElement.setAttribute("d", path);
+borderClipPath.appendChild(borderPathElement);
+hexGrid.appendChild(borderClipPath);
+hexGrid.setAttribute("clip-path", "url(#borderShape)"); // Apply clipping to whole SVG stage
+
+
+for (let row = 0; row < gridConfig.rows; row++) {
+for (let col = 0; col < gridConfig.cols; col++) {
+const offsetX = (row % 2 === 0) ? gridConfig.hexSize * 0.75 : 0;
+const x = (col * colWidth) + offsetX;
+const y = (row * rowHeight) / 2;
+
+const hexScale = (gridConfig.hexSize / 2) * 1.1; // Slighting larger than radius for seamless connections
+const hexCell = createHexCell(x, y, hexScale);
+hexGrid.appendChild(hexCell);
+}
+}
+}
+
+let pulseCounter = 0;
+const allCells = [];
+
+function animateGrid() {
+pulseCounter += gridConfig.pulseRate;
+// Get all cells once on update
+if (allCells.length === 0) {
+document.querySelectorAll('.hex-cell').forEach(cell => allCells.push(cell));
+}
+
+allCells.forEach((cell, index) => {
+// Soft brightness pulse animation over time
+const brightnessShift = 100 * Math.sin(pulseCounter + index * 0.1) * (gridConfig.pulseRate / 2); // Control pulse with shift & prob.
+const dimmedColor = shiftBrightness(gridConfig.baseColor, brightnessShift); // Shift base translucency softly
+cell.style.stroke = getRGBAString(dimmedColor, 0.4); // Use soft base for dimmed state stroke
+cell.style.fill = getRGBAString(dimmedColor); // trans. fill for dimmed state
+
+// Randomly activate some cells more dynamically
+if (Math.random() < gridConfig.pulseRate * gridConfig.activeProbability) {
+const isActive = Math.random() < gridConfig.activeProbability;
+if (isActive) {
+cell.style.fill = getRGBAString(gridConfig.activeColor); // Highlight dynamic active cells with vibrant gold translucency
+cell.style.stroke = getRGBAString(gridConfig.activeColor, 0.9); // Highlight stroke as well
+}
+}
+});
+}
+
+// Draw the initial grid, then start animation loop
+drawGrid();
+setInterval(animateGrid, gridConfig.cellAnimationInterval); // Animation update interval
 </script>
+
 </body>
 </html>
