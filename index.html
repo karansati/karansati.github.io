@@ -1,121 +1,203 @@
-
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth dark">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Karan Sati | Portfolio</title>
-<script src="https://cdn.tailwindcss.com?plugins=typography"></script>
-<script>
-tailwind.config = {
-  darkMode: 'class',
-  theme: {
-    extend: {
-      fontFamily: {
-        sans: ['Inter','ui-sans-serif','system-ui'],
-        heading: ['Poppins','Inter','ui-sans-serif'],
-        script: ['"Comic Neue"','cursive'],
-      },
-      colors:{ accent:{DEFAULT:'#4F46E5'} },
-      backgroundImage:{ paper: "url('https://www.toptal.com/designers/subtlepatterns/patterns/paper-1.png')" }
-    }
-  }
-};
-</script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@600;700&family=Comic+Neue:ital,wght@1,700&display=swap" rel="stylesheet">
-<meta name="theme-color" content="#111827">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karan Sati | Electrical Engineer Portfolio</title>
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'ui-sans-serif', 'system-ui'],
+                        heading: ['Poppins', 'Inter', 'ui-sans-serif'],
+                        script: ['"Comic Neue"', 'cursive'],
+                    },
+                    colors: { accent: { DEFAULT: '#4F46E5', hover: '#4338CA' } },
+                    backgroundImage: { paper: "url('https://www.toptal.com/designers/subtlepatterns/patterns/paper-1.png')" }
+                }
+            }
+        };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@600;700&family=Comic+Neue:ital,wght@1,700&display=swap" rel="stylesheet">
+    <style>
+        .bulb-glow { box-shadow: 0 0 50px rgba(250, 204, 21, 0.6); }
+    </style>
 </head>
-<body class="bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100 antialiased transition-colors duration-500 font-sans">
-<header class="sticky top-0 z-50 backdrop-blur bg-white/80 dark:bg-gray-900/80 border-b border-gray-200 dark:border-gray-700">
-<div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-<h1 class="text-xl font-semibold">Karan&nbsp;Sati</h1>
-<nav class="hidden md:flex gap-8 text-sm font-medium">
-<a href="#about" class="hover:text-accent">About</a>
-<a href="#skills" class="hover:text-accent">Skills</a>
-<a href="#projects" class="hover:text-accent">Projects</a>
-<a href="#education" class="hover:text-accent">Education</a>
-<a href="#contact" class="hover:text-accent">Contact</a>
-</nav>
-</div>
+<body class="bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100 antialiased transition-colors duration-300 font-sans">
+
+<!-- Navigation -->
+<header class="sticky top-0 z-50 backdrop-blur-md bg-white/70 dark:bg-gray-900/70 border-b border-gray-200 dark:border-gray-800">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+        <h1 class="text-xl font-bold tracking-tight">Karan<span class="text-accent">Sati.</span></h1>
+        <nav class="hidden md:flex gap-8 text-sm font-medium items-center">
+            <a href="#about" class="hover:text-accent transition-colors">About</a>
+            <a href="#skills" class="hover:text-accent transition-colors">Skills</a>
+            <a href="#projects" class="hover:text-accent transition-colors">Projects</a>
+            <a href="#playground" class="hover:text-accent transition-colors">Playground</a>
+            <button id="themeToggle" class="p-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:ring-2 ring-accent transition-all">
+                <svg id="sunIcon" class="hidden w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"></path></svg>
+                <svg id="moonIcon" class="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+            </button>
+        </nav>
+    </div>
 </header>
 
-<section id="hero" class="bg-paper dark:bg-gray-900/20 min-h-[80vh] flex items-center">
-<div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-10 items-center px-6 py-24">
-<div>
-<p class="font-script text-accent text-xl mb-4">Hey there</p>
-<h2 class="font-heading text-5xl lg:text-6xl font-bold leading-tight mb-6">I’m Karan.<br>Electrical engineer,<br>& tea‑powered problem‑solver.</h2>
-<p class="text-lg max-w-xl mb-8">Join fellow engineers who get my one‑minute emails on energy systems, neural‑network modelling, and productivity hacks.</p>
-</div>
-<figure class="justify-self-center">
-<img src="images/karan.jpg" alt="Portrait of Karan Sati" class="w-80 h-80 object-cover rounded-3xl shadow-lg border-4 border-gray-200 dark:border-gray-700">
-</figure>
-</div>
+<!-- Hero Section -->
+<section id="hero" class="relative min-h-[80vh] flex items-center bg-paper dark:bg-none overflow-hidden">
+    <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 items-center px-6 py-20 relative z-10">
+        <div>
+            <p class="font-script text-accent text-2xl mb-4 rotate-[-2deg]">Hey there!</p>
+            <h2 class="font-heading text-5xl lg:text-7xl font-bold leading-tight mb-6">I’m Karan.<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-accent to-purple-500">EE Engineer</span> & Problem‑Solver.</h2>
+            <p class="text-lg text-gray-600 dark:text-gray-400 mb-8 max-w-lg">Electrical Engineer specializing in Energy Systems. I build smart hardware and model neural networks.</p>
+            
+            <form class="flex flex-col sm:flex-row gap-3 max-w-md">
+                <input type="email" placeholder="Get my weekly engineering hacks" class="flex-1 px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white/50 dark:bg-gray-800/50 focus:ring-2 ring-accent outline-none text-sm">
+                <button type="submit" class="bg-accent text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg hover:shadow-accent/30 transition-all">Subscribe</button>
+            </form>
+        </div>
+        <div class="relative justify-self-center lg:justify-self-end">
+            <div class="absolute -inset-4 bg-accent/20 rounded-[3rem] blur-2xl"></div>
+            <img src="images/karan.jpg" alt="Karan Sati" class="relative w-72 h-72 lg:w-96 lg:h-96 object-cover rounded-[2.5rem] shadow-2xl border-8 border-white dark:border-gray-800">
+        </div>
+    </div>
 </section>
 
-<section id="about" class="scroll-mt-24 py-16 bg-gray-50 dark:bg-gray-800">
-<div class="max-w-4xl mx-auto px-6">
-<h3 class="text-3xl font-semibold mb-4">About Me</h3>
-<p class="prose dark:prose-invert">M.Tech in Electrical Engineering (Energy Systems) and B.Tech in Electrical & Electronics. I model energy systems and build embedded prototypes.</p>
-</div>
+<!-- Logic Gate Playground -->
+<section id="playground" class="py-24 bg-gray-50 dark:bg-gray-800/30">
+    <div class="max-w-4xl mx-auto px-6">
+        <div class="text-center mb-12">
+            <h3 class="text-3xl font-bold mb-2">The Circuit Playground</h3>
+            <p class="text-gray-600 dark:text-gray-400">Can you power the bulb? Toggle the logic gates below.</p>
+        </div>
+
+        <div class="bg-white dark:bg-gray-900 border-2 border-accent/20 rounded-3xl p-8 shadow-inner max-w-2xl mx-auto relative overflow-hidden">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
+                <div class="flex flex-col gap-10">
+                    <div class="flex items-center gap-4">
+                        <span class="text-xs font-bold tracking-widest text-gray-500">INPUT A</span>
+                        <button onclick="toggleGate('inputA')" id="btn-inputA" class="w-14 h-8 bg-gray-300 dark:bg-gray-700 rounded-full relative transition-colors">
+                            <div id="circle-inputA" class="w-6 h-6 bg-white rounded-full absolute top-1 left-1 transition-transform"></div>
+                        </button>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <span class="text-xs font-bold tracking-widest text-gray-500">INPUT B</span>
+                        <button onclick="toggleGate('inputB')" id="btn-inputB" class="w-14 h-8 bg-gray-300 dark:bg-gray-700 rounded-full relative transition-colors">
+                            <div id="circle-inputB" class="w-6 h-6 bg-white rounded-full absolute top-1 left-1 transition-transform"></div>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="w-32 h-24 border-4 border-gray-400 dark:border-gray-600 rounded-r-full flex items-center justify-center relative">
+                    <span class="font-bold text-lg text-gray-400">AND</span>
+                    <div class="absolute -left-10 top-1/4 w-10 h-1 bg-gray-400" id="wireA"></div>
+                    <div class="absolute -left-10 bottom-1/4 w-10 h-1 bg-gray-400" id="wireB"></div>
+                    <div class="absolute -right-10 top-1/2 w-10 h-1 bg-gray-400" id="wireOut"></div>
+                </div>
+
+                <div class="text-center">
+                    <div id="lightbulb" class="w-24 h-24 rounded-full bg-gray-200 dark:bg-gray-800 border-4 border-gray-300 dark:border-gray-700 flex items-center justify-center transition-all duration-500">
+                        <svg class="w-12 h-12 text-gray-400 transition-colors" id="bulbIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                        </svg>
+                    </div>
+                    <p id="status-text" class="mt-4 font-mono text-xs font-bold text-gray-400 uppercase tracking-widest">Logic: LOW</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 
-<section id="skills" class="scroll-mt-24 py-16">
-<div class="max-w-4xl mx-auto px-6">
-<h3 class="text-3xl font-semibold mb-6 text-center">Core Skills</h3>
-<div class="flex flex-wrap justify-center gap-3 text-sm">
-<span class="px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded-full">MATLAB</span>
-<span class="px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded-full">Simulink</span>
-<span class="px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded-full">ANSYS EM</span>
-<span class="px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded-full">Embedded Systems</span>
-<span class="px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded-full">PLC Programming</span>
-</div>
-</div>
-</section>
-
-<section id="projects" class="scroll-mt-24 py-16 bg-gray-50 dark:bg-gray-800">
-<div class="max-w-5xl mx-auto px-6">
-<h3 class="text-3xl font-semibold mb-6 text-center">Projects</h3>
-<div class="grid md:grid-cols-2 gap-8">
-<article class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl p-6">
-<h4 class="text-xl font-semibold mb-2">Voltage‑Sag Analysis</h4>
-<p class="text-sm mb-2">Studied induction motor performance during voltage sags.</p>
-</article>
-<article class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl p-6">
-<h4 class="text-xl font-semibold mb-2">Smart LPG Detection</h4>
-<p class="text-sm mb-2">IoT safety device to detect gas leakage and alert users.</p>
-</article>
-</div>
-</div>
-</section>
-
-<section id="education" class="scroll-mt-24 py-16">
-<div class="max-w-4xl mx-auto px-6">
-<h3 class="text-3xl font-semibold mb-6 text-center">Education</h3>
-<ul class="space-y-6">
-<li><strong>M.Tech</strong>, Electrical Engineering, GBPUAT (2021‑23)</li>
-<li><strong>B.Tech</strong>, Electrical & Electronics, Amrapali Institute (2015‑19)</li>
-</ul>
-</div>
-</section>
-
-<section id="contact" class="scroll-mt-24 py-16 bg-gray-50 dark:bg-gray-800">
-<div class="max-w-3xl mx-auto px-6 text-center">
-<h3 class="text-3xl font-semibold mb-6">Get in Touch</h3>
-<a href="mailto:karansati.work@gmail.com" class="bg-accent text-white px-6 py-3 rounded-lg">Email Me</a>
-</div>
-</section>
-
-<footer class="text-center py-8 text-sm border-t border-gray-200 dark:border-gray-700">
-&copy; 2025 Karan Sati
+<!-- Footer -->
+<footer class="bg-gray-900 text-white py-12">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+        <h3 class="text-2xl font-bold mb-4">Let's Connect</h3>
+        <p class="text-gray-400 mb-8 italic">"Tea-powered engineering for a sustainable future."</p>
+        <a href="mailto:karansati.work@gmail.com" class="inline-block bg-white text-gray-900 px-8 py-3 rounded-full font-bold hover:scale-105 transition-transform">Email Me</a>
+        <div class="mt-12 pt-8 border-t border-gray-800 text-sm text-gray-500">
+            &copy; 2026 Karan Sati.
+        </div>
+    </div>
 </footer>
 
 <script>
-const saved = localStorage.getItem('theme');
-if(saved==='light'){ document.documentElement.classList.remove('dark'); }
-const sun=document.getElementById('sunIcon'), moon=document.getElementById('moonIcon'), btn=document.getElementById('themeToggle');
-btn.addEventListener('click',()=>{ document.documentElement.classList.toggle('dark'); const d=document.documentElement.classList.contains('dark'); sun.classList.toggle('hidden', !d); moon.classList.toggle('hidden', d); localStorage.setItem('theme', d?'dark':'light');});
+    // Theme Toggle Logic
+    const themeToggle = document.getElementById('themeToggle');
+    const sunIcon = document.getElementById('sunIcon');
+    const moonIcon = document.getElementById('moonIcon');
+    const html = document.documentElement;
+
+    function updateIcons() {
+        if (html.classList.contains('dark')) {
+            sunIcon.classList.remove('hidden');
+            moonIcon.classList.add('hidden');
+        } else {
+            sunIcon.classList.add('hidden');
+            moonIcon.classList.remove('hidden');
+        }
+    }
+
+    themeToggle.addEventListener('click', () => {
+        html.classList.toggle('dark');
+        localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+        updateIcons();
+    });
+
+    if (localStorage.getItem('theme') === 'light') {
+        html.classList.remove('dark');
+        updateIcons();
+    } else {
+        updateIcons();
+    }
+
+    // Logic Gate Playground Logic
+    let gameState = { inputA: false, inputB: false };
+
+    function toggleGate(id) {
+        gameState[id] = !gameState[id];
+        const btn = document.getElementById(`btn-${id}`);
+        const circle = document.getElementById(`circle-${id}`);
+        const wire = document.getElementById(`wire${id.replace('input', '')}`);
+        
+        if (gameState[id]) {
+            btn.classList.replace('bg-gray-300', 'bg-accent');
+            btn.classList.replace('dark:bg-gray-700', 'bg-accent');
+            circle.style.transform = 'translateX(24px)';
+            wire.classList.replace('bg-gray-400', 'bg-accent');
+        } else {
+            btn.classList.add('bg-gray-300', 'dark:bg-gray-700');
+            btn.classList.remove('bg-accent');
+            circle.style.transform = 'translateX(0px)';
+            wire.classList.replace('bg-accent', 'bg-gray-400');
+        }
+        checkLogic();
+    }
+
+    function checkLogic() {
+        const isPowered = gameState.inputA && gameState.inputB;
+        const bulb = document.getElementById('lightbulb');
+        const bulbIcon = document.getElementById('bulbIcon');
+        const statusText = document.getElementById('status-text');
+        const wireOut = document.getElementById('wireOut');
+
+        if (isPowered) {
+            bulb.classList.add('bg-yellow-400', 'bulb-glow', 'border-yellow-200');
+            bulbIcon.classList.add('text-white');
+            statusText.innerText = "Logic: HIGH (5V)";
+            statusText.classList.replace('text-gray-400', 'text-yellow-500');
+            wireOut.classList.replace('bg-gray-400', 'bg-yellow-400');
+        } else {
+            bulb.classList.remove('bg-yellow-400', 'bulb-glow', 'border-yellow-200');
+            bulbIcon.classList.remove('text-white');
+            statusText.innerText = "Logic: LOW (0V)";
+            statusText.classList.replace('text-yellow-500', 'text-gray-400');
+            wireOut.classList.replace('bg-yellow-400', 'bg-gray-400');
+        }
+    }
 </script>
 </body>
 </html>
