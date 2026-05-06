@@ -27,53 +27,47 @@
     <style>
         .bulb-glow { box-shadow: 0 0 50px rgba(250, 204, 21, 0.6); }
 
-        /* --- Dynamic Honeycomb Portrait Styling --- */
-        .portrait-stage {
+        /* --- Modern Circular Portrait Styling --- */
+        .portrait-container {
             position: relative;
             width: 100%;
-            max-width: 400px;
+            max-width: 380px; /* Control max size */
             aspect-ratio: 1 / 1;
-            padding: 1rem;
-            box-sizing: border-box;
             margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-        .stage-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            /* Irregular hexagonal base shape */
-            clip-path: polygon(10% 0%, 90% 0%, 100% 10%, 100% 90%, 90% 100%, 10% 100%, 0% 90%, 0% 10%);
-            background-color: transparent;
-        }
-        .portrait-image {
+
+        /* Materialistic Layered Borders */
+        .border-ring-outer {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: -1;
+            inset: -20px; /* Extends past the image */
+            border-radius: 50%;
+            border: 1px solid rgba(79, 70, 229, 0.2); /* Faint Accent Color */
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.05);
         }
-        .honeycomb-border {
+        .border-ring-middle {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: -10px;
+            border-radius: 50%;
+            border: 2px solid rgba(79, 70, 229, 0.4); /* Medium Accent Color */
+        }
+        .border-ring-inner {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            border: 4px solid #4F46E5; /* Solid Accent Color */
+            box-shadow: 0 10px 30px rgba(79, 70, 229, 0.3); /* Soft Glow */
             z-index: 10;
-            pointer-events: none;
+            overflow: hidden; /* Clips the image to perfect circle */
         }
-        .honeycomb-grid {
+
+        .portrait-image {
             width: 100%;
             height: 100%;
-            fill: none;
-        }
-        .hex-cell {
-            stroke-width: 1;
-            fill-opacity: 0.1;
-            transition: fill 0.3s ease, stroke 0.3s ease;
+            object-fit: cover; /* Ensures image fills the circle perfectly */
+            object-position: center top; /* Focuses on face if image is tall */
         }
     </style>
 </head>
@@ -109,16 +103,15 @@
             </form>
         </div>
         
-        <div class="relative justify-self-center lg:justify-self-end w-full flex justify-center">
-            <div class="absolute inset-0 bg-accent/20 rounded-[3rem] blur-3xl scale-90 z-0"></div>
+        <div class="relative justify-self-center lg:justify-self-end w-full flex justify-center py-10">
+            <div class="absolute inset-0 bg-accent/10 rounded-full blur-3xl scale-90 z-0 pointer-events-none"></div>
             
-            <div class="portrait-stage z-10">
-                <div class="stage-inner">
+            <div class="portrait-container z-10">
+                <div class="border-ring-outer"></div>
+                <div class="border-ring-middle"></div>
+                
+                <div class="border-ring-inner">
                     <img src="images/karan.jpg" alt="Portrait of Karan Sati" class="portrait-image" id="portraitImg">
-                </div>
-                <div class="honeycomb-border" id="borderStage">
-                    <svg class="honeycomb-grid" viewBox="0 0 100 100" preserveAspectRatio="none" id="hexGrid">
-                        </svg>
                 </div>
             </div>
         </div>
@@ -195,17 +188,28 @@
     <div class="max-w-4xl mx-auto px-6">
         <div class="text-center mb-12">
             <h3 class="text-3xl font-bold mb-2 underline decoration-accent decoration-4 underline-offset-8">Advanced Circuit Playground</h3>
-            <p class="text-gray-600 dark:text-gray-400 mt-4">Can you complete the circuit? <br class="md:hidden"><code class="bg-gray-100 dark:bg-gray-800 px-3 py-1 rounded text-accent text-sm md:ml-2 font-mono">Logic: Output = (A AND B) OR C</code></p>
+            <p class="text-gray-600 dark:text-gray-400 mt-4">Multi-stage logic. Can you toggle the inputs to turn both LEDs OFF?</p>
+            <div class="mt-4 flex flex-col md:flex-row justify-center items-center gap-2">
+                <code class="bg-blue-50 dark:bg-blue-900/30 px-3 py-1 rounded text-blue-600 dark:text-blue-400 text-sm font-mono border border-blue-200 dark:border-blue-800">LED 1 = A NAND B</code>
+                <span class="hidden md:inline text-gray-400">+</span>
+                <code class="bg-yellow-50 dark:bg-yellow-900/30 px-3 py-1 rounded text-yellow-600 dark:text-yellow-400 text-sm font-mono border border-yellow-200 dark:border-yellow-800">LED 2 = (LED 1) XOR C</code>
+            </div>
         </div>
 
         <div class="w-full overflow-x-auto pb-8">
-            <div class="relative min-w-[700px] h-[340px] mx-auto bg-gray-50 dark:bg-gray-800/50 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm">
+            <div class="relative min-w-[800px] h-[360px] mx-auto bg-gray-50 dark:bg-gray-800/50 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm">
+                
                 <svg class="absolute inset-0 w-full h-full pointer-events-none">
-                    <path id="wire-a" d="M 110 70 L 200 70 L 200 95 L 250 95" stroke="currentColor" class="text-gray-300 dark:text-gray-600 transition-colors duration-300" stroke-width="4" fill="none" stroke-linejoin="round"/>
-                    <path id="wire-b" d="M 110 170 L 200 170 L 200 145 L 250 145" stroke="currentColor" class="text-gray-300 dark:text-gray-600 transition-colors duration-300" stroke-width="4" fill="none" stroke-linejoin="round"/>
-                    <path id="wire-c" d="M 110 270 L 400 270 L 400 220 L 450 220" stroke="currentColor" class="text-gray-300 dark:text-gray-600 transition-colors duration-300" stroke-width="4" fill="none" stroke-linejoin="round"/>
-                    <path id="wire-and" d="M 350 120 L 400 120 L 400 170 L 450 170" stroke="currentColor" class="text-gray-300 dark:text-gray-600 transition-colors duration-300" stroke-width="4" fill="none" stroke-linejoin="round"/>
-                    <path id="wire-out" d="M 550 195 L 600 195" stroke="currentColor" class="text-gray-300 dark:text-gray-600 transition-colors duration-300" stroke-width="4" fill="none" stroke-linecap="round"/>
+                    <path id="wire-a" d="M 110 68 L 200 68 L 200 95 L 250 95" stroke="currentColor" class="text-gray-300 dark:text-gray-600 transition-colors duration-300" stroke-width="4" fill="none" stroke-linejoin="round"/>
+                    <path id="wire-b" d="M 110 168 L 200 168 L 200 145 L 250 145" stroke="currentColor" class="text-gray-300 dark:text-gray-600 transition-colors duration-300" stroke-width="4" fill="none" stroke-linejoin="round"/>
+                    
+                    <path id="wire-nand-main" d="M 350 120 L 420 120" stroke="currentColor" class="text-gray-300 dark:text-gray-600 transition-colors duration-300" stroke-width="4" fill="none" stroke-linejoin="round"/>
+                    <path id="wire-nand-led1" d="M 420 120 L 420 70 L 490 70" stroke="currentColor" class="text-gray-300 dark:text-gray-600 transition-colors duration-300" stroke-width="4" fill="none" stroke-linejoin="round"/>
+                    <path id="wire-nand-xor" d="M 420 120 L 420 170 L 470 170" stroke="currentColor" class="text-gray-300 dark:text-gray-600 transition-colors duration-300" stroke-width="4" fill="none" stroke-linejoin="round"/>
+                    
+                    <path id="wire-c" d="M 110 284 L 420 284 L 420 220 L 470 220" stroke="currentColor" class="text-gray-300 dark:text-gray-600 transition-colors duration-300" stroke-width="4" fill="none" stroke-linejoin="round"/>
+                    
+                    <path id="wire-xor-led2" d="M 570 195 L 660 195" stroke="currentColor" class="text-gray-300 dark:text-gray-600 transition-colors duration-300" stroke-width="4" fill="none" stroke-linecap="round"/>
                 </svg>
 
                 <div class="absolute left-[30px] top-[54px] flex items-center gap-3">
@@ -220,26 +224,37 @@
                         <div id="circle-B" class="w-5 h-5 bg-white rounded-full absolute top-1 left-1 transition-transform"></div>
                     </button>
                 </div>
-                <div class="absolute left-[30px] top-[254px] flex items-center gap-3">
+                <div class="absolute left-[30px] top-[270px] flex items-center gap-3">
                     <span class="font-bold text-[10px] tracking-widest text-gray-500">INPUT C</span>
                     <button id="btn-C" onclick="toggleNode('C')" class="w-12 h-7 bg-gray-300 dark:bg-gray-600 rounded-full relative transition-colors focus:outline-none">
                         <div id="circle-C" class="w-5 h-5 bg-white rounded-full absolute top-1 left-1 transition-transform"></div>
                     </button>
                 </div>
 
-                <div id="gate-and" class="absolute left-[250px] top-[70px] w-[100px] h-[100px] border-4 border-gray-300 dark:border-gray-600 rounded-r-full flex items-center justify-center bg-white dark:bg-gray-900 transition-colors z-10 shadow-sm">
-                    <span class="font-bold text-gray-400 tracking-wide">AND</span>
-                </div>
-                <div id="gate-or" class="absolute left-[450px] top-[145px] w-[100px] h-[100px] border-4 border-gray-300 dark:border-gray-600 rounded-r-[50%] rounded-l-3xl flex items-center justify-center bg-white dark:bg-gray-900 transition-colors z-10 shadow-sm">
-                    <span class="font-bold text-gray-400 tracking-wide ml-2">OR</span>
+                <div id="gate-nand" class="absolute left-[250px] top-[70px] w-[100px] h-[100px] border-4 border-gray-300 dark:border-gray-600 text-gray-400 rounded-r-full flex items-center justify-center bg-white dark:bg-gray-900 transition-colors z-10 shadow-sm">
+                    <span class="font-bold tracking-wide mr-2">NAND</span>
+                    <div id="nand-dot" class="absolute -right-2 w-3 h-3 border-4 border-current bg-white dark:bg-gray-900 rounded-full transition-colors"></div>
                 </div>
 
-                <div id="lightbulb" class="absolute left-[600px] top-[155px] w-20 h-20 rounded-full bg-gray-200 dark:bg-gray-700 border-4 border-gray-300 dark:border-gray-600 flex items-center justify-center transition-all duration-500 z-10">
-                    <svg class="w-10 h-10 text-gray-400 transition-colors" id="bulbIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div id="led-1" class="absolute left-[490px] top-[30px] w-20 h-20 rounded-full bg-gray-200 dark:bg-gray-700 border-4 border-gray-300 dark:border-gray-600 flex items-center justify-center transition-all duration-500 z-10">
+                    <svg class="w-10 h-10 text-gray-400 transition-colors" id="led-1-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
                     </svg>
                 </div>
-                <p id="status-text" class="absolute left-[580px] top-[245px] w-[120px] text-center font-mono text-xs font-bold text-gray-400 uppercase tracking-widest">LOW (0)</p>
+                <p id="text-1" class="absolute left-[470px] top-[120px] w-[120px] text-center font-mono text-xs font-bold text-gray-400 uppercase tracking-widest">NAND: LOW</p>
+
+                <div id="gate-xor" class="absolute left-[470px] top-[145px] w-[100px] h-[100px] border-4 border-gray-300 dark:border-gray-600 text-gray-400 rounded-r-[50%] rounded-l-3xl flex items-center justify-center bg-white dark:bg-gray-900 transition-colors z-10 shadow-sm relative">
+                    <div id="xor-back" class="absolute -left-3 top-[-4px] bottom-[-4px] w-4 border-l-4 border-current rounded-l-3xl transition-colors"></div>
+                    <span class="font-bold tracking-wide ml-2">XOR</span>
+                </div>
+
+                <div id="led-2" class="absolute left-[660px] top-[155px] w-20 h-20 rounded-full bg-gray-200 dark:bg-gray-700 border-4 border-gray-300 dark:border-gray-600 flex items-center justify-center transition-all duration-500 z-10">
+                    <svg class="w-10 h-10 text-gray-400 transition-colors" id="led-2-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                    </svg>
+                </div>
+                <p id="text-2" class="absolute left-[640px] top-[245px] w-[120px] text-center font-mono text-xs font-bold text-gray-400 uppercase tracking-widest">OUT: LOW</p>
+
             </div>
         </div>
     </div>

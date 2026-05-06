@@ -26,11 +26,11 @@ if (localStorage.getItem('theme') === 'light') {
     html.classList.remove('dark');
     updateIcons();
 } else {
-    updateIcons(); // Default to dark mode
+    updateIcons(); 
 }
 
 // ==========================================
-// 2. Logic Gate Playground Logic (Combination Circuit)
+// 2. Multi-Stage Logic Gate Playground
 // ==========================================
 let circuit = { A: false, B: false, C: false };
 
@@ -40,15 +40,17 @@ function toggleNode(node) {
 }
 
 function updateCircuit() {
-    // Logic: Output = (A AND B) OR C
-    const andResult = circuit.A && circuit.B;
-    const orResult = andResult || circuit.C;
+    // Stage 1: NAND Gate
+    const nandResult = !(circuit.A && circuit.B);
+    
+    // Stage 2: XOR Gate
+    const xorResult = nandResult !== circuit.C;
 
     const activeColor = 'text-accent';
     const inactiveColor = 'text-gray-300';
     const inactiveDark = 'dark:text-gray-600';
 
-    // Update Input Buttons and Wires
+    // 1. Update Input Buttons and Wires
     ['A', 'B', 'C'].forEach(node => {
         const btn = document.getElementById(`btn-${node}`);
         const circle = document.getElementById(`circle-${node}`);
@@ -69,152 +71,86 @@ function updateCircuit() {
         }
     });
 
-    // Update AND Gate
-    const gateAnd = document.getElementById('gate-and');
-    const wireAnd = document.getElementById('wire-and');
-    if (andResult) {
-        gateAnd.classList.add('border-accent', 'text-accent', 'shadow-[0_0_15px_rgba(79,70,229,0.3)]');
-        gateAnd.classList.remove('border-gray-300', 'dark:border-gray-600', 'text-gray-400');
-        wireAnd.classList.add(activeColor); 
-        wireAnd.classList.remove(inactiveColor, inactiveDark);
-    } else {
-        gateAnd.classList.remove('border-accent', 'text-accent', 'shadow-[0_0_15px_rgba(79,70,229,0.3)]');
-        gateAnd.classList.add('border-gray-300', 'dark:border-gray-600', 'text-gray-400');
-        wireAnd.classList.remove(activeColor); 
-        wireAnd.classList.add(inactiveColor, inactiveDark);
-    }
-
-    // Update OR Gate
-    const gateOr = document.getElementById('gate-or');
-    const wireOut = document.getElementById('wire-out');
-    if (orResult) {
-        gateOr.classList.add('border-accent', 'text-accent', 'shadow-[0_0_15px_rgba(79,70,229,0.3)]');
-        gateOr.classList.remove('border-gray-300', 'dark:border-gray-600', 'text-gray-400');
-        wireOut.classList.add(activeColor); 
-        wireOut.classList.remove(inactiveColor, inactiveDark);
-    } else {
-        gateOr.classList.remove('border-accent', 'text-accent', 'shadow-[0_0_15px_rgba(79,70,229,0.3)]');
-        gateOr.classList.add('border-gray-300', 'dark:border-gray-600', 'text-gray-400');
-        wireOut.classList.remove(activeColor); 
-        wireOut.classList.add(inactiveColor, inactiveDark);
-    }
-
-    // Update Final Bulb Output
-    const bulb = document.getElementById('lightbulb');
-    const bulbIcon = document.getElementById('bulbIcon');
-    const statusText = document.getElementById('status-text');
-
-    if (orResult) {
-        bulb.classList.add('bg-yellow-400', 'bulb-glow', 'border-yellow-200');
-        bulbIcon.classList.add('text-white');
-        statusText.innerText = "HIGH (1)";
-        statusText.classList.replace('text-gray-400', 'text-yellow-500');
-    } else {
-        bulb.classList.remove('bg-yellow-400', 'bulb-glow', 'border-yellow-200');
-        bulbIcon.classList.remove('text-white');
-        statusText.innerText = "LOW (0)";
-        statusText.classList.replace('text-yellow-500', 'text-gray-400');
-    }
-}
-
-// ==========================================
-// 3. Animated Honeycomb Border Logic
-// ==========================================
-const gridConfig = {
-    cols: 10,
-    rows: 10,
-    hexSize: 10,
-    baseColor: { r: 100, g: 116, b: 139, a: 0.2 }, // Slate base
-    activeColor: { r: 79, g: 70, b: 229, a: 0.8 }, // Indigo accent
-    pulseRate: 0.05,
-    maxBrightnessShift: 40,
-    activeProbability: 0.08,
-    cellAnimationInterval: 500,
-};
-
-const hexGrid = document.getElementById('hexGrid');
-
-function getRGBAString(color, alphaOverride) {
-    return `rgba(${color.r}, ${color.g}, ${color.b}, ${alphaOverride !== undefined ? alphaOverride : color.a})`;
-}
-
-function shiftBrightness(color, shiftPercentage) {
-    const shiftAmount = (gridConfig.maxBrightnessShift / 100) * 255 * (shiftPercentage / 100);
-    const r = Math.max(0, Math.min(255, color.r + shiftAmount));
-    const g = Math.max(0, Math.min(255, color.g + shiftAmount));
-    const b = Math.max(0, Math.min(255, color.b + shiftAmount));
-    return { r, g, b, a: color.a };
-}
-
-const hexHeight = Math.sqrt(3);
-const colWidth = 1.5 * gridConfig.hexSize;
-const rowHeight = hexHeight * gridConfig.hexSize;
-
-function createHexCell(x, y, scale) {
-    const points = [];
-    const angles = [30, 90, 150, 210, 270, 330];
-    for (let angle of angles) {
-        const angleRad = (angle * Math.PI) / 180;
-        points.push(`${scale * Math.cos(angleRad)},${scale * Math.sin(angleRad)}`);
-    }
-    const polygon = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
-    polygon.setAttribute("points", points.join(' '));
-    polygon.setAttribute("class", "hex-cell");
-    polygon.setAttribute("transform", `translate(${x}, ${y})`);
-    polygon.style.stroke = getRGBAString(gridConfig.baseColor);
-    polygon.style.fill = getRGBAString(gridConfig.baseColor);
-    return polygon;
-}
-
-function drawGrid() {
-    if(!hexGrid) return;
-    hexGrid.innerHTML = '';
+    // 2. Update NAND Gate & Branching Wires
+    const gateNand = document.getElementById('gate-nand');
+    const nandDot = document.getElementById('nand-dot');
+    const wireNandMain = document.getElementById('wire-nand-main');
+    const wireNandLed1 = document.getElementById('wire-nand-led1');
+    const wireNandXor = document.getElementById('wire-nand-xor');
     
-    const path = `M10 0 L90 0 L100 10 L100 90 L90 100 L10 100 L0 90 L0 10 Z`;
-    const borderClipPath = document.createElementNS("http://www.w3.org/2000/svg", "clipPath");
-    borderClipPath.setAttribute("id", "borderShape");
-    const borderPathElement = document.createElementNS("http://www.w3.org/2000/svg", "path");
-    borderPathElement.setAttribute("d", path);
-    borderClipPath.appendChild(borderPathElement);
-    hexGrid.appendChild(borderClipPath);
-    hexGrid.setAttribute("clip-path", "url(#borderShape)");
+    if (nandResult) {
+        gateNand.classList.add('border-accent', 'text-accent', 'shadow-[0_0_15px_rgba(79,70,229,0.3)]');
+        gateNand.classList.remove('border-gray-300', 'dark:border-gray-600', 'text-gray-400');
+        nandDot.classList.add('border-accent'); nandDot.classList.remove('border-gray-300', 'dark:border-gray-600');
+        
+        [wireNandMain, wireNandLed1, wireNandXor].forEach(w => {
+            w.classList.add(activeColor); w.classList.remove(inactiveColor, inactiveDark);
+        });
+    } else {
+        gateNand.classList.remove('border-accent', 'text-accent', 'shadow-[0_0_15px_rgba(79,70,229,0.3)]');
+        gateNand.classList.add('border-gray-300', 'dark:border-gray-600', 'text-gray-400');
+        nandDot.classList.remove('border-accent'); nandDot.classList.add('border-gray-300', 'dark:border-gray-600');
 
-    for (let row = 0; row < gridConfig.rows; row++) {
-        for (let col = 0; col < gridConfig.cols; col++) {
-            const offsetX = (row % 2 === 0) ? gridConfig.hexSize * 0.75 : 0;
-            const x = (col * colWidth) + offsetX;
-            const y = (row * rowHeight) / 2;
-            const hexScale = (gridConfig.hexSize / 2) * 1.1; 
-            const hexCell = createHexCell(x, y, hexScale);
-            hexGrid.appendChild(hexCell);
-        }
+        [wireNandMain, wireNandLed1, wireNandXor].forEach(w => {
+            w.classList.remove(activeColor); w.classList.add(inactiveColor, inactiveDark);
+        });
+    }
+
+    // 3. Update LED 1 (Blue NAND Indicator)
+    const led1 = document.getElementById('led-1');
+    const led1Icon = document.getElementById('led-1-icon');
+    const text1 = document.getElementById('text-1');
+    
+    if (nandResult) {
+        led1.classList.add('bg-blue-400', 'shadow-[0_0_40px_rgba(96,165,250,0.6)]', 'border-blue-200');
+        led1Icon.classList.add('text-white');
+        text1.innerText = "NAND: HIGH (1)";
+        text1.classList.replace('text-gray-400', 'text-blue-500');
+    } else {
+        led1.classList.remove('bg-blue-400', 'shadow-[0_0_40px_rgba(96,165,250,0.6)]', 'border-blue-200');
+        led1Icon.classList.remove('text-white');
+        text1.innerText = "NAND: LOW (0)";
+        text1.classList.replace('text-blue-500', 'text-gray-400');
+    }
+
+    // 4. Update XOR Gate & Output Wire
+    const gateXor = document.getElementById('gate-xor');
+    const xorBack = document.getElementById('xor-back');
+    const wireXorOut = document.getElementById('wire-xor-led2');
+    
+    if (xorResult) {
+        gateXor.classList.add('border-accent', 'text-accent', 'shadow-[0_0_15px_rgba(79,70,229,0.3)]');
+        gateXor.classList.remove('border-gray-300', 'dark:border-gray-600', 'text-gray-400');
+        xorBack.classList.add('border-accent'); xorBack.classList.remove('border-gray-300', 'dark:border-gray-600');
+        
+        wireXorOut.classList.add(activeColor); wireXorOut.classList.remove(inactiveColor, inactiveDark);
+    } else {
+        gateXor.classList.remove('border-accent', 'text-accent', 'shadow-[0_0_15px_rgba(79,70,229,0.3)]');
+        gateXor.classList.add('border-gray-300', 'dark:border-gray-600', 'text-gray-400');
+        xorBack.classList.remove('border-accent'); xorBack.classList.add('border-gray-300', 'dark:border-gray-600');
+        
+        wireXorOut.classList.remove(activeColor); wireXorOut.classList.add(inactiveColor, inactiveDark);
+    }
+
+    // 5. Update LED 2 (Yellow Final Output)
+    const led2 = document.getElementById('led-2');
+    const led2Icon = document.getElementById('led-2-icon');
+    const text2 = document.getElementById('text-2');
+    
+    if (xorResult) {
+        led2.classList.add('bg-yellow-400', 'bulb-glow', 'border-yellow-200');
+        led2Icon.classList.add('text-white');
+        text2.innerText = "OUT: HIGH (1)";
+        text2.classList.replace('text-gray-400', 'text-yellow-500');
+    } else {
+        led2.classList.remove('bg-yellow-400', 'bulb-glow', 'border-yellow-200');
+        led2Icon.classList.remove('text-white');
+        text2.innerText = "OUT: LOW (0)";
+        text2.classList.replace('text-yellow-500', 'text-gray-400');
     }
 }
 
-let pulseCounter = 0;
-const allCells = [];
-
-function animateGrid() {
-    pulseCounter += gridConfig.pulseRate;
-    if (allCells.length === 0) {
-        document.querySelectorAll('.hex-cell').forEach(cell => allCells.push(cell));
-    }
-
-    allCells.forEach((cell, index) => {
-        const brightnessShift = 100 * Math.sin(pulseCounter + index * 0.1) * (gridConfig.pulseRate / 2);
-        const dimmedColor = shiftBrightness(gridConfig.baseColor, brightnessShift);
-        cell.style.stroke = getRGBAString(dimmedColor, 0.3);
-        cell.style.fill = getRGBAString(dimmedColor);
-
-        if (Math.random() < gridConfig.pulseRate * gridConfig.activeProbability) {
-            if (Math.random() < gridConfig.activeProbability) {
-                cell.style.fill = getRGBAString(gridConfig.activeColor);
-                cell.style.stroke = getRGBAString(gridConfig.activeColor, 0.9);
-            }
-        }
-    });
-}
-
-// Initialize Honeycomb
-drawGrid();
-setInterval(animateGrid, gridConfig.cellAnimationInterval);
+// Ensure circuit initializes on page load
+window.addEventListener('DOMContentLoaded', () => {
+    updateCircuit();
+});
